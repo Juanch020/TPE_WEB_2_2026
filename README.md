@@ -24,4 +24,6 @@ Decisiones de Diseño
 -	Se evitó el uso de valores de texto libre para las posiciones, optando por una tabla independiente para mejorar la normalización.
 -	La entidad `posicion` se modela como tabla independiente para permitir su reutilización y facilitar la escalabilidad del sistema.
 
-El modelo está diseñado para ser escalable, permitiendo la incorporación futura de nuevas entidades com
+El modelo está diseñado para ser escalable, permitiendo la incorporación futura de nuevas entidades como entrenadores, partidos, estadísticas o ligas, sin necesidad de modificar la estructura principal.
+
+Gracias a la normalización aplicada y al uso de claves foráneas, se garantiza la integridad de los datos y se facilita la expansión del sistema, manteniendo un diseño claro, consistente y eficiente.
