@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 14-05-2026 a las 01:06:16
+-- Tiempo de generación: 15-05-2026 a las 18:29:24
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -31,8 +31,17 @@ CREATE TABLE `equipo` (
   `id` int(11) NOT NULL,
   `nombre` varchar(100) NOT NULL,
   `descripcion` varchar(250) NOT NULL,
-  `fecha_creacion` date NOT NULL
+  `fecha_creacion` date NOT NULL,
+  `foto` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `equipo`
+--
+
+INSERT INTO `equipo` (`id`, `nombre`, `descripcion`, `fecha_creacion`, `foto`) VALUES
+(1, 'Boca Juniors', 'Club argentino', '1905-04-03', 'https://upload.wikimedia.org/wikipedia/commons/7/7f/Boca_Juniors_logo18.png'),
+(2, 'River Plate', 'Club argentino', '1901-05-25', 'https://upload.wikimedia.org/wikipedia/commons/a/ac/Escudo_del_C_A_River_Plate.svg');
 
 -- --------------------------------------------------------
 
@@ -44,10 +53,18 @@ CREATE TABLE `jugador` (
   `id` int(11) NOT NULL,
   `nombre` varchar(100) NOT NULL,
   `precio` decimal(10,2) NOT NULL,
-  `rol` varchar(100) NOT NULL,
   `id_equipo` int(11) NOT NULL,
-  `id_posicion` int(11) NOT NULL
+  `id_posicion` int(11) NOT NULL,
+  `foto` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `jugador`
+--
+
+INSERT INTO `jugador` (`id`, `nombre`, `precio`, `id_equipo`, `id_posicion`, `foto`) VALUES
+(1, 'Cavani', 1000000.00, 1, 4, 'https://example.com/cavani.jpg'),
+(2, 'Armani', 900000.00, 2, 1, 'https://example.com/armani.jpg');
 
 -- --------------------------------------------------------
 
@@ -59,6 +76,16 @@ CREATE TABLE `posicion` (
   `id` int(11) NOT NULL,
   `nombre` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `posicion`
+--
+
+INSERT INTO `posicion` (`id`, `nombre`) VALUES
+(1, 'Arquero'),
+(2, 'Defensor'),
+(3, 'Mediocampista'),
+(4, 'Delantero');
 
 -- --------------------------------------------------------
 
@@ -94,8 +121,8 @@ ALTER TABLE `equipo`
 --
 ALTER TABLE `jugador`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `id_equipo` (`id_equipo`),
-  ADD KEY `id_posicion` (`id_posicion`);
+  ADD KEY `id_posicion` (`id_posicion`),
+  ADD KEY `jugador_ibfk_1` (`id_equipo`);
 
 --
 -- Indices de la tabla `posicion`
@@ -117,19 +144,19 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de la tabla `equipo`
 --
 ALTER TABLE `equipo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `jugador`
 --
 ALTER TABLE `jugador`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `posicion`
 --
 ALTER TABLE `posicion`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario`
