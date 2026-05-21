@@ -1,0 +1,44 @@
+<h2>Equipos disponibles</h2>
+
+<?php if (empty($equipos)): ?>
+
+    <p>No hay equipos cargados.</p>
+
+<?php else: ?>
+
+    <ul>
+
+        <?php foreach ($equipos as $equipo): ?>
+
+            <li>
+
+                <strong>ID:</strong>
+                <?= $equipo->id; ?> —
+
+                <strong>Nombre:</strong>
+
+                <a href="<?= BASE_URL; ?>equipo/<?= $equipo->id; ?>">
+
+                    <?= htmlspecialchars($equipo->nombre); ?>
+
+                </a> —
+
+                <strong>Descripción:</strong>
+                <?= htmlspecialchars($equipo->descripcion); ?> —
+
+                <strong>Fundación:</strong>
+                <?= htmlspecialchars($equipo->fecha_creacion); ?>
+
+            </li>
+
+        <?php endforeach; ?>
+
+    </ul>
+
+    <p>
+        <a href="<?= BASE_URL; ?>jugadores">
+            Ver todos los jugadores
+        </a>
+    </p>
+
+<?php endif; ?>

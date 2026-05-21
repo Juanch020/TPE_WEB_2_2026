@@ -1,0 +1,189 @@
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f4f4f4;
+    color: #222;
+}
+
+/* HEADER */
+
+.header {
+    background-color:red;
+    color: white;
+    padding: 20px;
+}
+
+.header h1 {
+    margin: 0;
+}
+
+.header nav {
+    margin-top: 15px;
+}
+
+.header nav a {
+    color: white;
+    text-decoration: none;
+    margin-right: 15px;
+    font-weight: bold;
+}
+
+.header nav a:hover {
+    text-decoration: underline;
+}
+
+/* CONTENEDOR */
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
+}
+
+/* MAIN */
+
+main {
+    padding: 30px 0;
+}
+
+/* LINKS */
+
+a {
+    color: red;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* TABLAS */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: white;
+}
+
+th,
+td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+
+th {
+    background-color: red;
+    color: white;
+}
+
+/* FORMULARIOS */
+
+form {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 500px;
+    margin: 20px auto;
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+button:hover {
+    background-color: red;
+}
+
+/* FOOTER */
+
+footer {
+    background-color: red;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    margin-top: 40px;
+}
+
+/* LISTA DE JUGADORES */
+
+.jugador-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+/* CARD DE JUGADOR */
+
+.jugador-card {
+    width: 250px;
+    background-color: white;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+}
+
+.jugador-card:hover {
+    transform: translateY(-5px);
+}
+
+/* IMAGEN EN CARDS */
+
+.jugador-img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+/* IMAGEN DETALLE */
+
+.detalle-img {
+    width: 300px;
+    max-width: 100%;
+    border-radius: 10px;
+    margin: 15px 0;
+}
+
+/* IMAGEN TABLA */
+
+.tabla-imagen {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+/* ERROR */
+
+.error-container {
+    text-align: center;
+    padding: 40px;
+}
+
+.error-container h2 {
+    font-size: 32px;
+    color: #b91c1c;
+}

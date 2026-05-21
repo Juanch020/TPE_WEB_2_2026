@@ -1,0 +1,109 @@
+<h2>Administrar equipos</h2>
+
+<a class="btn-add" href="<?= BASE_URL; ?>admin_equipo_add">
+
+    Agregar equipo
+
+</a>
+
+<?php if (empty($equipos)): ?>
+
+    <p>No hay equipos disponibles.</p>
+
+<?php else: ?>
+
+    <table class="table">
+
+        <thead>
+
+            <tr>
+
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Fecha creación</th>
+                <th>Foto</th>
+                <th>Acciones</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            <?php foreach ($equipos as $equipo): ?>
+
+                <tr>
+
+                    <td>
+
+                        <?= $equipo->id; ?>
+
+                    </td>
+
+                    <td>
+
+                        <?= htmlspecialchars($equipo->nombre); ?>
+
+                    </td>
+
+                    <td>
+
+                        <?= htmlspecialchars($equipo->descripcion); ?>
+
+                    </td>
+
+                    <td>
+
+                        <?= htmlspecialchars($equipo->fecha_creacion); ?>
+
+                    </td>
+
+                    <td>
+
+                        <?php if (!empty($equipo->foto)): ?>
+
+                            <img
+                                src="<?= htmlspecialchars($equipo->foto); ?>"
+                                alt="<?= htmlspecialchars($equipo->nombre); ?>"
+                                width="80"
+                            >
+
+                        <?php else: ?>
+
+                            Sin foto
+
+                        <?php endif; ?>
+
+                    </td>
+
+                    <td>
+
+                        <a href="<?= BASE_URL; ?>admin_equipo_edit/<?= $equipo->id; ?>">
+
+                            Editar
+
+                        </a>
+
+                        |
+
+                        <a
+                            href="<?= BASE_URL; ?>admin_equipo_delete/<?= $equipo->id; ?>"
+                            onclick="return confirm('¿Eliminar equipo?')"
+                        >
+
+                            Eliminar
+
+                        </a>
+
+                    </td>
+
+                </tr>
+
+            <?php endforeach; ?>
+
+        </tbody>
+
+    </table>
+
+<?php endif; ?>

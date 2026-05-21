@@ -1,0 +1,122 @@
+<?php
+$isEdit = isset($jugador) && !empty($jugador);
+
+$actionUrl = $isEdit
+    ? BASE_URL . "admin_jugador_edit/" . $jugador->id
+    : BASE_URL . "admin_jugador_add";
+?>
+
+<section class="form-container">
+
+    <h2>
+        <?= $isEdit ? "Editar jugador" : "Agregar jugador" ?>
+    </h2>
+
+    <?php if (!empty($error)): ?>
+        <p class="error-message">
+            <?= htmlspecialchars($error) ?>
+        </p>
+    <?php endif; ?>
+
+    <form action="<?= $actionUrl ?>" method="POST">
+
+        <div class="form-group">
+            <label>Nombre:</label>
+
+            <input 
+                type="text" 
+                name="nombre" 
+                required
+                value="<?= $isEdit ? htmlspecialchars($jugador->nombre) : '' ?>"
+            >
+        </div>
+
+        <div class="form-group">
+            <label>Precio:</label>
+
+            <input 
+                type="number" 
+                name="precio" 
+                min="1"
+                required
+                value="<?= $isEdit ? htmlspecialchars($jugador->precio) : '' ?>"
+            >
+        </div>
+
+        <div class="form-group">
+            <label>Equipo:</label>
+
+            <select name="id_equipo" required>
+
+                <option value="">
+                    -- Seleccionar equipo --
+                </option>
+
+                <?php foreach ($equipos as $e): ?>
+
+                    <?php
+                    $selected = $isEdit && $e->id == $jugador->id_equipo
+                        ? 'selected'
+                        : '';
+                    ?>
+
+                    <option value="<?= $e->id ?>" <?= $selected ?>>
+                        <?= htmlspecialchars($e->nombre) ?>
+                    </option>
+
+                <?php endforeach; ?>
+
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Posición:</label>
+
+            <select name="id_posicion" required>
+
+                <option value="">
+                    -- Seleccionar posición --
+                </option>
+
+                <?php foreach ($posiciones as $p): ?>
+
+                    <?php
+                    $selected = $isEdit && $p->id == $jugador->id_posicion
+                        ? 'selected'
+                        : '';
+                    ?>
+
+                    <option value="<?= $p->id ?>" <?= $selected ?>>
+                        <?= htmlspecialchars($p->nombre) ?>
+                    </option>
+
+                <?php endforeach; ?>
+
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Foto (URL):</label>
+
+            <input 
+                type="text" 
+                name="foto"
+                value="<?= $isEdit ? htmlspecialchars($jugador->foto) : '' ?>"
+            >
+        </div>
+
+        <div class="form-buttons">
+
+            <button type="submit">
+                <?= $isEdit ? "Actualizar" : "Crear" ?>
+            </button>
+
+            <a href="<?= BASE_URL ?>admin_jugadores">
+                Cancelar
+            </a>
+
+        </div>
+
+    </form>
+
+</section>

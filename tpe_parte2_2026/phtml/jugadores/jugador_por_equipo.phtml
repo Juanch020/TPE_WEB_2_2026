@@ -1,0 +1,90 @@
+<h2>
+    Jugadores del equipo
+    <?= htmlspecialchars($equipo->nombre) ?>
+</h2>
+
+<?php if (!empty($equipo->foto)): ?>
+
+    <img
+        src="<?= htmlspecialchars($equipo->foto) ?>"
+        alt="<?= htmlspecialchars($equipo->nombre) ?>"
+        class="detalle-img"
+    >
+
+<?php endif; ?>
+
+<p>
+    <strong>Descripción:</strong>
+    <?= htmlspecialchars($equipo->descripcion) ?>
+</p>
+
+<p>
+    <strong>Fecha de creación:</strong>
+    <?= htmlspecialchars($equipo->fecha_creacion) ?>
+</p>
+
+<?php if (empty($jugadores)): ?>
+
+    <p>No hay jugadores en este equipo.</p>
+
+<?php else: ?>
+
+    <div class="jugador-list">
+
+        <?php foreach ($jugadores as $j): ?>
+
+            <article class="jugador-card">
+
+                <?php if (!empty($j->foto)): ?>
+
+                    <img
+                        src="<?= htmlspecialchars($j->foto) ?>"
+                        alt="<?= htmlspecialchars($j->nombre) ?>"
+                        class="jugador-img"
+                    >
+
+                <?php endif; ?>
+
+                <h3>
+
+                    <a href="<?= BASE_URL ?>jugador/<?= $j->id ?>">
+
+                        <?= htmlspecialchars($j->nombre) ?>
+
+                    </a>
+
+                </h3>
+
+                <p>
+                    <strong>Posición:</strong>
+                    <?= htmlspecialchars($j->posicion) ?>
+                </p>
+
+                <p>
+                    <strong>Precio:</strong>
+                    $<?= htmlspecialchars($j->precio) ?>
+                </p>
+
+            </article>
+
+        <?php endforeach; ?>
+
+    </div>
+
+<?php endif; ?>
+
+<p>
+
+    <a href="<?= BASE_URL ?>equipos">
+        Volver a equipos
+    </a>
+
+</p>
+
+<p>
+
+    <a href="<?= BASE_URL ?>jugadores">
+        Ver todos los jugadores
+    </a>
+
+</p>

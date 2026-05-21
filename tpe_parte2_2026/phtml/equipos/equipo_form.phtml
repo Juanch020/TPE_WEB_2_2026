@@ -1,0 +1,104 @@
+<?php
+$isEdit = isset($equipo) && !empty($equipo);
+
+$actionUrl = $isEdit
+    ? BASE_URL . "admin_equipo_edit/" . $equipo->id
+    : BASE_URL . "admin_equipo_add";
+?>
+
+<h2>
+
+    <?= $isEdit ? "Editar equipo" : "Agregar equipo"; ?>
+
+</h2>
+
+<?php if (!empty($error)): ?>
+
+    <p class="error-message">
+
+        <?= htmlspecialchars($error); ?>
+
+    </p>
+
+<?php endif; ?>
+
+<form action="<?= $actionUrl; ?>" method="POST">
+
+    <div class="form-group">
+
+        <label for="nombre">
+            Nombre
+        </label>
+
+        <input
+            type="text"
+            id="nombre"
+            name="nombre"
+            required
+            value="<?= $isEdit ? htmlspecialchars($equipo->nombre) : ''; ?>"
+        >
+
+    </div>
+
+    <div class="form-group">
+
+        <label for="descripcion">
+            Descripción
+        </label>
+
+        <textarea
+            id="descripcion"
+            name="descripcion"
+            required
+        ><?= $isEdit ? htmlspecialchars($equipo->descripcion) : ''; ?></textarea>
+
+    </div>
+
+    <div class="form-group">
+
+        <label for="fecha_creacion">
+            Fecha de creación
+        </label>
+
+        <input
+            type="date"
+            id="fecha_creacion"
+            name="fecha_creacion"
+            required
+            value="<?= $isEdit ? htmlspecialchars($equipo->fecha_creacion) : ''; ?>"
+        >
+
+    </div>
+
+    <div class="form-group">
+
+        <label for="foto">
+            URL de la foto
+        </label>
+
+        <input
+            type="text"
+            id="foto"
+            name="foto"
+            value="<?= $isEdit ? htmlspecialchars($equipo->foto) : ''; ?>"
+        >
+
+    </div>
+
+    <div class="form-actions">
+
+        <button type="submit">
+
+            <?= $isEdit ? "Actualizar" : "Crear"; ?>
+
+        </button>
+
+        <a href="<?= BASE_URL; ?>admin_equipos">
+
+            Cancelar
+
+        </a>
+
+    </div>
+
+</form>

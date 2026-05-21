@@ -1,0 +1,98 @@
+<h2>Administrar jugadores</h2>
+
+<a href="<?= BASE_URL ?>admin_jugador_add">
+    Agregar jugador
+</a>
+
+<?php if (empty($jugadores)): ?>
+
+    <p>No hay jugadores disponibles.</p>
+
+<?php else: ?>
+
+    <table>
+
+        <thead>
+
+            <tr>
+                <th>ID</th>
+                <th>Foto</th>
+                <th>Nombre</th>
+                <th>Equipo</th>
+                <th>Posición</th>
+                <th>Precio</th>
+                <th>Acciones</th>
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            <?php foreach ($jugadores as $jugador): ?>
+
+                <tr>
+
+                    <td>
+                        <?= htmlspecialchars($jugador->id) ?>
+                    </td>
+
+                    <td>
+
+                        <?php if (!empty($jugador->foto)): ?>
+
+                            <img
+                                src="<?= htmlspecialchars($jugador->foto) ?>"
+                                alt="<?= htmlspecialchars($jugador->nombre) ?>"
+                                class="tabla-imagen"
+                            >
+
+                        <?php else: ?>
+
+                            Sin foto
+
+                        <?php endif; ?>
+
+                    </td>
+
+                    <td>
+                        <?= htmlspecialchars($jugador->nombre) ?>
+                    </td>
+
+                    <td>
+                        <?= htmlspecialchars($jugador->equipo) ?>
+                    </td>
+
+                    <td>
+                        <?= htmlspecialchars($jugador->posicion) ?>
+                    </td>
+
+                    <td>
+                        $<?= htmlspecialchars($jugador->precio) ?>
+                    </td>
+
+                    <td>
+
+                        <a href="<?= BASE_URL ?>admin_jugador_edit/<?= $jugador->id ?>">
+                            Editar
+                        </a>
+
+                        |
+
+                        <a
+                            href="<?= BASE_URL ?>admin_jugador_delete/<?= $jugador->id ?>"
+                            onclick="return confirm('¿Eliminar jugador?')"
+                        >
+                            Eliminar
+                        </a>
+
+                    </td>
+
+                </tr>
+
+            <?php endforeach; ?>
+
+        </tbody>
+
+    </table>
+
+<?php endif; ?>
