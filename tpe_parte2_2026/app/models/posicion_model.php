@@ -3,10 +3,6 @@ require_once __DIR__ . '/database_model.php';
 
 class PosicionModel extends DatabaseModel{
 
-    public function __construct() {
-        parent::__construct();
-    }
-
     public function getById($id){
         $query = $this->db->prepare("SELECT * FROM posicion WHERE id = ?");
         $query->execute([$id]);

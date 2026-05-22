@@ -2,63 +2,79 @@
 <html lang="es">
 
 <head>
+
     <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
     <title>TPE WEB 2</title>
 
-    <link rel="stylesheet" href="<?= BASE_URL ?>public/css/style.css">
+    <link
+        rel="stylesheet"
+        href="<?= BASE_URL ?>public/css/style.css"
+    >
+
 </head>
 
 <body>
 
-<header>
+<header class="header">
 
-    <h1>TPE WEB 2</h1>
+    <div class="container">
 
-    <nav>
+        <h1>TPE WEB 2</h1>
 
-        <a href="<?= BASE_URL ?>home">Inicio</a>
+        <nav>
 
-        <a href="<?= BASE_URL ?>equipos">
-            Equipos
-        </a>
-
-        <a href="<?= BASE_URL ?>jugadores">
-            Jugadores
-        </a>
-
-        <a href="<?= BASE_URL ?>posiciones">
-            Posiciones
-        </a>
-
-        <?php if ($user): ?>
-
-            <a href="<?= BASE_URL ?>admin_jugadores">
-                Admin jugadores
+            <a href="<?= BASE_URL ?>home">
+                Inicio
             </a>
 
-            <a href="<?= BASE_URL ?>admin_equipos">
-                Admin equipos
+            <a href="<?= BASE_URL ?>equipos">
+                Equipos
             </a>
 
-            <a href="<?= BASE_URL ?>admin_posiciones">
-                Admin posiciones
+            <a href="<?= BASE_URL ?>jugadores">
+                Jugadores
             </a>
 
-            <a href="<?= BASE_URL ?>logout">
-                Logout
-                (<?= htmlspecialchars($user['username']) ?>)
+            <a href="<?= BASE_URL ?>posiciones">
+                Posiciones
             </a>
 
-        <?php else: ?>
+            <?php if ($user): ?>
 
-            <a href="<?= BASE_URL ?>login">
-                Login
-            </a>
+                <a href="<?= BASE_URL ?>admin_jugadores">
+                    Admin jugadores
+                </a>
 
-        <?php endif; ?>
+                <a href="<?= BASE_URL ?>admin_equipos">
+                    Admin equipos
+                </a>
 
-    </nav>
+                <a href="<?= BASE_URL ?>admin_posiciones">
+                    Admin posiciones
+                </a>
+
+                <a href="<?= BASE_URL ?>logout">
+                    logout (<?= htmlspecialchars(is_object($user) ? $user->username : $user['username']) ?>)
+                </a>
+
+            <?php else: ?>
+
+                <a href="<?= BASE_URL ?>login">
+                    Login
+                </a>
+
+            <?php endif; ?>
+
+        </nav>
+
+    </div>
 
 </header>
 
-<main>
+<main class="container">

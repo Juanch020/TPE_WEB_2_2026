@@ -8,31 +8,50 @@ $actionUrl = $isEdit
 
 ?>
 
-<h2>
+<section class="form-container">
 
-    <?= $isEdit ? "Editar posición" : "Agregar posición" ?>
+    <h2>
+        <?= $isEdit ? "Editar posición" : "Agregar posición" ?>
+    </h2>
 
-</h2>
+    <?php if (!empty($error)): ?>
 
-<form action="<?= $actionUrl ?>" method="POST">
+        <p class="error-message">
+            <?= htmlspecialchars($error) ?>
+        </p>
 
-    <div>
+    <?php endif; ?>
 
-        <label>Nombre</label>
+    <form action="<?= $actionUrl ?>" method="POST">
 
-        <input
-            type="text"
-            name="nombre"
-            required
-            value="<?= $isEdit ? htmlspecialchars($posicion->nombre) : '' ?>"
-        >
+        <div class="form-group">
 
-    </div>
+            <label for="nombre">
+                Nombre
+            </label>
 
-    <button type="submit">
+            <input
+                type="text"
+                id="nombre"
+                name="nombre"
+                required
+                value="<?= $isEdit ? htmlspecialchars($posicion->nombre) : '' ?>"
+            >
 
-        <?= $isEdit ? "Actualizar" : "Crear" ?>
+        </div>
 
-    </button>
+        <div class="form-actions">
 
-</form>
+            <button type="submit">
+                <?= $isEdit ? "Actualizar" : "Crear" ?>
+            </button>
+
+            <a href="<?= BASE_URL ?>admin_posiciones">
+                Cancelar
+            </a>
+
+        </div>
+
+    </form>
+
+</section>

@@ -4,101 +4,115 @@ $isEdit = isset($equipo) && !empty($equipo);
 $actionUrl = $isEdit
     ? BASE_URL . "admin_equipo_edit/" . $equipo->id
     : BASE_URL . "admin_equipo_add";
+
+$nombre = $isEdit
+    ? htmlspecialchars($equipo->nombre)
+    : '';
+
+$descripcion = $isEdit
+    ? htmlspecialchars($equipo->descripcion)
+    : '';
+
+$fecha = $isEdit
+    ? htmlspecialchars($equipo->fecha_creacion)
+    : '';
+
+$foto = $isEdit && !empty($equipo->foto)
+    ? htmlspecialchars($equipo->foto)
+    : '';
 ?>
 
-<h2>
+<section class="form-container">
 
-    <?= $isEdit ? "Editar equipo" : "Agregar equipo"; ?>
+    <h2>
+        <?= $isEdit ? "Editar equipo" : "Agregar equipo" ?>
+    </h2>
 
-</h2>
+    <?php if (!empty($error)): ?>
 
-<?php if (!empty($error)): ?>
+        <p class="error-message">
+            <?= htmlspecialchars($error) ?>
+        </p>
 
-    <p class="error-message">
+    <?php endif; ?>
 
-        <?= htmlspecialchars($error); ?>
+    <form action="<?= $actionUrl ?>" method="POST">
 
-    </p>
+        <div class="form-group">
 
-<?php endif; ?>
+            <label for="nombre">
+                Nombre
+            </label>
 
-<form action="<?= $actionUrl; ?>" method="POST">
+            <input
+                type="text"
+                id="nombre"
+                name="nombre"
+                required
+                value="<?= $nombre ?>"
+            >
 
-    <div class="form-group">
+        </div>
 
-        <label for="nombre">
-            Nombre
-        </label>
+        <div class="form-group">
 
-        <input
-            type="text"
-            id="nombre"
-            name="nombre"
-            required
-            value="<?= $isEdit ? htmlspecialchars($equipo->nombre) : ''; ?>"
-        >
+            <label for="descripcion">
+                Descripción
+            </label>
 
-    </div>
+            <textarea
+                id="descripcion"
+                name="descripcion"
+                required><?= $descripcion ?></textarea>
 
-    <div class="form-group">
+        </div>
 
-        <label for="descripcion">
-            Descripción
-        </label>
+        <div class="form-group">
 
-        <textarea
-            id="descripcion"
-            name="descripcion"
-            required
-        ><?= $isEdit ? htmlspecialchars($equipo->descripcion) : ''; ?></textarea>
+            <label for="fecha_creacion">
+                Fecha de creación
+            </label>
 
-    </div>
+            <input
+                type="date"
+                id="fecha_creacion"
+                name="fecha_creacion"
+                required
+                value="<?= $fecha ?>"
+            >
 
-    <div class="form-group">
+        </div>
 
-        <label for="fecha_creacion">
-            Fecha de creación
-        </label>
+        <div class="form-group">
 
-        <input
-            type="date"
-            id="fecha_creacion"
-            name="fecha_creacion"
-            required
-            value="<?= $isEdit ? htmlspecialchars($equipo->fecha_creacion) : ''; ?>"
-        >
+            <label for="foto">
+                URL de la foto
+            </label>
 
-    </div>
+            <input
+                type="url"
+                id="foto"
+                name="foto"
+                value="<?= $foto ?>"
+            >
 
-    <div class="form-group">
+        </div>
 
-        <label for="foto">
-            URL de la foto
-        </label>
+        <div class="form-actions">
 
-        <input
-            type="text"
-            id="foto"
-            name="foto"
-            value="<?= $isEdit ? htmlspecialchars($equipo->foto) : ''; ?>"
-        >
+            <button type="submit">
+                <?= $isEdit ? "Actualizar" : "Crear" ?>
+            </button>
 
-    </div>
+            <a
+                class="btn-cancel"
+                href="<?= BASE_URL ?>admin_equipos"
+            >
+                Cancelar
+            </a>
 
-    <div class="form-actions">
+        </div>
 
-        <button type="submit">
+    </form>
 
-            <?= $isEdit ? "Actualizar" : "Crear"; ?>
-
-        </button>
-
-        <a href="<?= BASE_URL; ?>admin_equipos">
-
-            Cancelar
-
-        </a>
-
-    </div>
-
-</form>
+</section>

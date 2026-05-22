@@ -3,10 +3,6 @@ require_once __DIR__ . '/database_model.php';
 
 class JugadorModel extends DatabaseModel{
 
-    public function __construct() {
-        parent::__construct();
-    }
-    
     public function getById($id){
         $query = $this->db->prepare(
         "SELECT 
@@ -72,7 +68,7 @@ class JugadorModel extends DatabaseModel{
 
         $query->execute([$id_equipo]);
 
-        return $query->fetchAll();
+        return $query->fetchAll(PDO::FETCH_OBJ);
     }
 
     public function getByPosicion($id_posicion){

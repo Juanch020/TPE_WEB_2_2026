@@ -8,12 +8,6 @@ class PosicionView {
         require_once './phtml/layouts/footer.phtml';
     }
 
-    public function showPosicion($posicion, $user) {
-        require_once './phtml/layouts/header.phtml';
-        require_once './phtml/posiciones/posicion_detail.phtml';
-        require_once './phtml/layouts/footer.phtml';
-    }
-
     public function showAdminPosiciones($posiciones, $user) {
         require_once './phtml/layouts/header.phtml';
         require_once './phtml/posiciones/admin_list_posicion.phtml';

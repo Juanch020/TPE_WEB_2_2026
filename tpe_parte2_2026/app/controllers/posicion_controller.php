@@ -22,24 +22,6 @@ class PosicionController {
         $this->view->showPosiciones($posiciones, $request->user);
     }
 
-    public function showPosicion($request) {
-        if (!is_numeric($request->id)) {
-            $this->view->showError("ID inválido", 400, $request->user);
-            
-            return;
-        }
-
-        $posicion = $this->model->getById($request->id);
-
-        if (!$posicion) {
-            $this->view->showError("Posición no encontrada", 404, $request->user);
-            
-            return;
-        }
-
-        $this->view->showPosicion($posicion, $request->user);
-    }
-
     public function adminPosiciones($request) {
         $posiciones = $this->model->getAll();
 

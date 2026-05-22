@@ -6,47 +6,51 @@
 
 <?php else: ?>
 
-    <div class="jugador-list">
+    <section class="jugador-list">
 
-        <?php foreach ($jugadores as $j): ?>
+        <?php foreach ($jugadores as $jugador): ?>
 
             <article class="jugador-card">
 
-                <?php if (!empty($j->foto)): ?>
+                <?php if (!empty($jugador->foto)): ?>
 
-                    <img 
-                        src="<?= htmlspecialchars($j->foto) ?>" 
-                        alt="<?= htmlspecialchars($j->nombre) ?>"
+                    <img
+                        src="<?= htmlspecialchars($jugador->foto) ?>"
+                        alt="<?= htmlspecialchars($jugador->nombre) ?>"
                         class="jugador-img"
                     >
 
                 <?php endif; ?>
 
                 <h3>
-                    <a href="<?= BASE_URL ?>jugador/<?= $j->id ?>">
-                        <?= htmlspecialchars($j->nombre) ?>
+
+                    <a href="<?= BASE_URL ?>jugador/<?= $jugador->id ?>">
+
+                        <?= htmlspecialchars($jugador->nombre) ?>
+
                     </a>
+
                 </h3>
 
                 <p>
                     <strong>Precio:</strong>
-                    $<?= htmlspecialchars($j->precio) ?>
+                    $<?= htmlspecialchars($jugador->precio) ?>
                 </p>
 
                 <p>
                     <strong>Equipo:</strong>
-                    <?= htmlspecialchars($j->equipo) ?>
+                    <?= htmlspecialchars($jugador->equipo) ?>
                 </p>
 
                 <p>
                     <strong>Posición:</strong>
-                    <?= htmlspecialchars($j->posicion) ?>
+                    <?= htmlspecialchars($jugador->posicion) ?>
                 </p>
 
             </article>
 
         <?php endforeach; ?>
 
-    </div>
+    </section>
 
 <?php endif; ?>

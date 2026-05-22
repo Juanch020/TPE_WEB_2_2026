@@ -1,6 +1,9 @@
 <h2>Administrar jugadores</h2>
 
-<a href="<?= BASE_URL ?>admin_jugador_add">
+<a
+    class="btn-add"
+    href="<?= BASE_URL ?>admin_jugador_add"
+>
     Agregar jugador
 </a>
 
@@ -10,7 +13,7 @@
 
 <?php else: ?>
 
-    <table>
+    <table class="admin-table">
 
         <thead>
 
@@ -67,18 +70,20 @@
                     </td>
 
                     <td>
-                        $<?= htmlspecialchars($jugador->precio) ?>
+                        $<?= number_format($jugador->precio, 2, ',', '.') ?>
                     </td>
 
-                    <td>
+                    <td class="acciones">
 
-                        <a href="<?= BASE_URL ?>admin_jugador_edit/<?= $jugador->id ?>">
+                        <a
+                            class="btn-edit"
+                            href="<?= BASE_URL ?>admin_jugador_edit/<?= $jugador->id ?>"
+                        >
                             Editar
                         </a>
 
-                        |
-
                         <a
+                            class="btn-delete"
                             href="<?= BASE_URL ?>admin_jugador_delete/<?= $jugador->id ?>"
                             onclick="return confirm('¿Eliminar jugador?')"
                         >

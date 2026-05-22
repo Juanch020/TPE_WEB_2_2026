@@ -6,10 +6,46 @@ require_once __DIR__ . '/app/controllers/equipo_controller.php';
 require_once __DIR__ . '/app/controllers/posicion_controller.php';
 require_once __DIR__ . '/app/controllers/auth_controller.php';
 
+require_once __DIR__ . '/app/views/jugador_view.php';
+
 require_once __DIR__ . '/app/middlewares/session_middleware.php';
 require_once __DIR__ . '/app/middlewares/guard_middleware.php';
 
 session_start();
+
+/*
+| Helpers
+*/
+
+function showRouterError($mensaje, $codigo, $request) {
+
+    http_response_code($codigo);
+
+    $view = new JugadorView();
+    $view->showError($mensaje, $codigo, $request);
+
+    exit;
+}
+
+function requireId($params, $request, $mensaje = 'ID inválido') {
+
+    if (
+        !isset($params[1]) ||
+        !is_numeric($params[1])
+    ) {
+        showRouterError($mensaje, 400, $request);
+    }
+
+    return (int) $params[1];
+}
+
+function requireAuth($request) {
+    return (new GuardMiddleware())->run($request);
+}
+
+/*
+| Request
+*/
 
 $action = 'home';
 
@@ -23,10 +59,14 @@ $request = new stdClass();
 
 $request = (new SessionMiddleware())->run($request);
 
+/*
+| Router
+*/
+
 switch ($params[0]) {
 
     /*
-    Público
+    | Público
     */
 
     case 'home':
@@ -45,16 +85,9 @@ switch ($params[0]) {
 
     case 'jugador':
 
-        if (!isset($params[1]) || !is_numeric($params[1])
-        ) {
-            http_response_code(400);
-            echo "ID de jugador inválido";
-            break;
-        }
-
         $controller = new JugadorController();
 
-        $request->id = (int) $params[1];
+        $request->id = requireId($params,$request,"ID de jugador inválido");
 
         $controller->showJugador($request);
 
@@ -69,18 +102,11 @@ switch ($params[0]) {
 
     case 'equipo':
 
-        if (!isset($params[1]) || !is_numeric($params[1])
-        ) {
-            http_response_code(400);
-            echo "ID de equipo inválido";
-            break;
-        }
-
-        $controller = new JugadorController();
-
-        $request->id = (int) $params[1];
-
-        $controller->showJugadoresByEquipo($request);
+        $controller = new EquipoController();
+        
+        $request->id = requireId( $params, $request, "ID de equipo inválido");
+        
+        $controller->showEquipo($request);
 
     break;
 
@@ -93,25 +119,16 @@ switch ($params[0]) {
 
     case 'posicion':
 
-        if (
-            !isset($params[1]) ||
-            !is_numeric($params[1])
-        ) {
-            http_response_code(400);
-            echo "ID de posición inválido";
-            break;
-        }
-
         $controller = new JugadorController();
 
-        $request->id = (int) $params[1];
+        $request->id = requireId($params, $request, "ID de posición inválido");
 
         $controller->showJugadoresByPosicion($request);
 
     break;
 
     /*
-    Auth
+    | Auth
     */
 
     case 'login':
@@ -130,7 +147,7 @@ switch ($params[0]) {
 
     case 'logout':
 
-        $request = (new GuardMiddleware())->run($request);
+        $request = requireAuth($request);
 
         $controller = new AuthController();
         $controller->logout($request);
@@ -138,12 +155,12 @@ switch ($params[0]) {
     break;
 
     /*
-    Admin Jugadores
+    | Admin Jugadores
     */
 
     case 'admin_jugadores':
 
-        $request = (new GuardMiddleware())->run($request);
+        $request = requireAuth($request);
 
         $controller = new JugadorController();
         $controller->adminJugadores($request);
@@ -152,7 +169,7 @@ switch ($params[0]) {
 
     case 'admin_jugador_add':
 
-        $request = (new GuardMiddleware())->run($request);
+        $request = requireAuth($request);
 
         $controller = new JugadorController();
 
@@ -169,20 +186,11 @@ switch ($params[0]) {
 
     case 'admin_jugador_edit':
 
-        $request = (new GuardMiddleware())->run($request);
-
-        if (
-            !isset($params[1]) ||
-            !is_numeric($params[1])
-        ) {
-            http_response_code(400);
-            echo "ID de jugador inválido";
-            break;
-        }
+        $request = requireAuth($request);
 
         $controller = new JugadorController();
 
-        $request->id = (int) $params[1];
+        $request->id = requireId($params, $request, "ID de jugador inválido");
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -197,32 +205,23 @@ switch ($params[0]) {
 
     case 'admin_jugador_delete':
 
-        $request = (new GuardMiddleware())->run($request);
-
-        if (
-            !isset($params[1]) ||
-            !is_numeric($params[1])
-        ) {
-            http_response_code(400);
-            echo "ID de jugador inválido";
-            break;
-        }
+        $request = requireAuth($request);
 
         $controller = new JugadorController();
 
-        $request->id = (int) $params[1];
+        $request->id = requireId($params, $request, "ID de jugador inválido");
 
         $controller->deleteJugador($request);
 
     break;
 
     /*
-    Admin Equipos
+    | Admin Equipos
     */
 
     case 'admin_equipos':
 
-        $request = (new GuardMiddleware())->run($request);
+        $request = requireAuth($request);
 
         $controller = new EquipoController();
         $controller->adminEquipos($request);
@@ -231,7 +230,7 @@ switch ($params[0]) {
 
     case 'admin_equipo_add':
 
-        $request = (new GuardMiddleware())->run($request);
+        $request = requireAuth($request);
 
         $controller = new EquipoController();
 
@@ -248,18 +247,11 @@ switch ($params[0]) {
 
     case 'admin_equipo_edit':
 
-        $request = (new GuardMiddleware())->run($request);
-
-        if (!isset($params[1]) || !is_numeric($params[1])
-        ) {
-            http_response_code(400);
-            echo "ID de equipo inválido";
-            break;
-        }
+        $request = requireAuth($request);
 
         $controller = new EquipoController();
 
-        $request->id = (int) $params[1];
+        $request->id = requireId($params, $request, "ID de equipo inválido");
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -274,30 +266,23 @@ switch ($params[0]) {
 
     case 'admin_equipo_delete':
 
-        $request = (new GuardMiddleware())->run($request);
-
-        if (!isset($params[1]) || !is_numeric($params[1])
-        ) {
-            http_response_code(400);
-            echo "ID de equipo inválido";
-            break;
-        }
+        $request = requireAuth($request);
 
         $controller = new EquipoController();
 
-        $request->id = (int) $params[1];
+        $request->id = requireId($params, $request, "ID de equipo inválido");
 
         $controller->deleteEquipo($request);
 
     break;
 
     /*
-    Admin Posiciones
+    | Admin Posiciones
     */
 
     case 'admin_posiciones':
 
-        $request = (new GuardMiddleware())->run($request);
+        $request = requireAuth($request);
 
         $controller = new PosicionController();
         $controller->adminPosiciones($request);
@@ -306,7 +291,7 @@ switch ($params[0]) {
 
     case 'admin_posicion_add':
 
-        $request = (new GuardMiddleware())->run($request);
+        $request = requireAuth($request);
 
         $controller = new PosicionController();
 
@@ -323,18 +308,11 @@ switch ($params[0]) {
 
     case 'admin_posicion_edit':
 
-        $request = (new GuardMiddleware())->run($request);
-
-        if (!isset($params[1]) || !is_numeric($params[1])
-        ) {
-            http_response_code(400);
-            echo "ID de posición inválido";
-            break;
-        }
+        $request = requireAuth($request);
 
         $controller = new PosicionController();
 
-        $request->id = (int) $params[1];
+        $request->id = requireId($params, $request, "ID de posición inválido");
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -349,34 +327,27 @@ switch ($params[0]) {
 
     case 'admin_posicion_delete':
 
-        $request = (new GuardMiddleware())->run($request);
-
-        if (
-            !isset($params[1]) ||
-            !is_numeric($params[1])
-        ) {
-            http_response_code(400);
-            echo "ID de posición inválido";
-            break;
-        }
+        $request = requireAuth($request);
 
         $controller = new PosicionController();
 
-        $request->id = (int) $params[1];
+        $request->id = requireId(
+            $params,
+            $request,
+            "ID de posición inválido"
+        );
 
         $controller->deletePosicion($request);
 
     break;
 
     /*
-    404
+    | 404
     */
 
     default:
 
-        http_response_code(404);
-
-        echo "404 - Página no encontrada";
+        showRouterError("404 - Página no encontrada", 404, $request);
 
     break;
 }

@@ -19,6 +19,22 @@ class EquipoController{
         $this->view->showEquipos($equipos, $request->user);
     }
 
+    public function showEquipo($request) {
+
+        $id = $request->id;
+
+        $equipo = $this->model->getById($id);
+
+        if (!$equipo) {
+            $this->view->showError("Equipo no encontrado", 404, $request->user);
+            return;
+        }
+
+        $jugadores = $this->jugadorModel->getByEquipo($id);
+
+        $this->view->showEquipo($equipo, $jugadores, $request->user);
+    }
+
     public function adminEquipos($request){
         $equipos = $this->model->getAll();
         $this->view->showAdminEquipos($equipos, $request->user);

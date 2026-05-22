@@ -6,39 +6,67 @@
 
 <?php else: ?>
 
-    <ul>
+    <section class="equipo-list">
 
         <?php foreach ($equipos as $equipo): ?>
 
-            <li>
+            <article class="equipo-card">
 
-                <strong>ID:</strong>
-                <?= $equipo->id; ?> —
+                <?php if (!empty($equipo->foto)): ?>
 
-                <strong>Nombre:</strong>
+                    <img
+                        class="equipo-img"
+                        src="<?= htmlspecialchars($equipo->foto) ?>"
+                        alt="<?= htmlspecialchars($equipo->nombre) ?>"
+                    >
 
-                <a href="<?= BASE_URL; ?>equipo/<?= $equipo->id; ?>">
+                <?php endif; ?>
 
-                    <?= htmlspecialchars($equipo->nombre); ?>
+                <h3>
 
-                </a> —
+                    <a href="<?= BASE_URL ?>equipo/<?= $equipo->id ?>">
 
-                <strong>Descripción:</strong>
-                <?= htmlspecialchars($equipo->descripcion); ?> —
+                        <?= htmlspecialchars($equipo->nombre) ?>
 
-                <strong>Fundación:</strong>
-                <?= htmlspecialchars($equipo->fecha_creacion); ?>
+                    </a>
 
-            </li>
+                </h3>
+
+                <p>
+
+                    <strong>ID:</strong>
+                    <?= $equipo->id ?>
+
+                </p>
+
+                <p>
+
+                    <strong>Descripción:</strong>
+                    <?= htmlspecialchars($equipo->descripcion) ?>
+
+                </p>
+
+                <p>
+
+                    <strong>Fundación:</strong>
+                    <?= htmlspecialchars($equipo->fecha_creacion) ?>
+
+                </p>
+
+            </article>
 
         <?php endforeach; ?>
 
-    </ul>
+    </section>
 
-    <p>
-        <a href="<?= BASE_URL; ?>jugadores">
+    <p class="link-volver">
+
+        <a href="<?= BASE_URL ?>jugadores">
+
             Ver todos los jugadores
+
         </a>
+
     </p>
 
 <?php endif; ?>

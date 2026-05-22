@@ -8,6 +8,12 @@ class EquipoView {
         require_once './phtml/layouts/footer.phtml';
     }
 
+    public function showEquipo($equipo, $jugadores, $user) {
+        require_once './phtml/layouts/header.phtml';
+        require_once './phtml/equipos/equipo_detail.phtml';
+        require_once './phtml/layouts/footer.phtml';
+    }
+
     public function showAdminEquipos($equipos, $user) {
         require_once './phtml/layouts/header.phtml';
         require_once './phtml/equipos/admin_equipo_list.phtml';

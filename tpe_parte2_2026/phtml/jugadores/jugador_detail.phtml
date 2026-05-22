@@ -6,7 +6,7 @@
 
 <?php endif; ?>
 
-<section class="detalle-jugador">
+<section class="detalle-card">
 
     <h2>
         <?= htmlspecialchars($jugador->nombre) ?>
@@ -17,7 +17,7 @@
         <img
             src="<?= htmlspecialchars($jugador->foto) ?>"
             alt="<?= htmlspecialchars($jugador->nombre) ?>"
-            class="detalle-imagen"
+            class="detalle-img"
         >
 
     <?php endif; ?>
@@ -42,12 +42,8 @@
         $<?= htmlspecialchars($jugador->precio) ?>
     </p>
 
-    <p>
-
-        <a href="<?= BASE_URL ?>jugadores">
-            Volver al listado
-        </a>
-
-    </p>
+    <a href="<?= BASE_URL ?>jugadores" class="btn-link">
+        Volver al listado
+    </a>
 
 </section>
