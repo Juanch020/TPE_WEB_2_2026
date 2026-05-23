@@ -119,11 +119,11 @@ switch ($params[0]) {
 
     case 'posicion':
 
-        $controller = new JugadorController();
+        $controller = new PosicionController();
 
         $request->id = requireId($params, $request, "ID de posición inválido");
 
-        $controller->showJugadoresByPosicion($request);
+        $controller->showPosicion($request);
 
     break;
 

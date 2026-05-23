@@ -52,7 +52,7 @@ class JugadorController {
 
         $jugadores = $this->model->getByEquipo($id_equipo);
 
-        $this->view->showJugadoresByEquipo($jugadores, $equipo, $request->user);
+        $this->view->showJugadoresByEquipo($equipo, $jugadores, $request->user);
     }
 
     public function showJugadoresByPosicion($request) {
@@ -72,7 +72,7 @@ class JugadorController {
 
         $jugadores = $this->model->getByPosicion($id_posicion);
 
-        $this->view->showJugadoresByPosicion($jugadores, $posicion, $request->user);
+        $this->view->showJugadoresByPosicion($posicion, $jugadores, $request->user);
     }
 
     public function adminJugadores($request) {

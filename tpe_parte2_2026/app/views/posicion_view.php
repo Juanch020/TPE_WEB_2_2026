@@ -14,6 +14,12 @@ class PosicionView {
         require_once './phtml/layouts/footer.phtml';
     }
 
+    public function showPosicion($posicion, $jugadores, $user){
+        require_once './phtml/layouts/header.phtml';
+        require_once './phtml/posiciones/posicion_detail.phtml';
+        require_once './phtml/layouts/footer.phtml';
+    }
+
     public function showPosicionForm($posicion, $user, $error = null) {
         require_once './phtml/layouts/header.phtml';
         require_once './phtml/posiciones/posicion_form.phtml';

@@ -13,19 +13,7 @@ class JugadorView {
         require_once './phtml/jugadores/jugador_detail.phtml';
         require_once './phtml/layouts/footer.phtml';
     }
-
-    public function showJugadoresByEquipo($jugadores, $equipo, $user) {
-        require_once './phtml/layouts/header.phtml';
-        require_once './phtml/jugadores/jugador_por_equipo.phtml';
-        require_once './phtml/layouts/footer.phtml';
-    }
-
-    public function showJugadoresByPosicion($jugadores, $posicion, $user) {
-        require_once './phtml/layouts/header.phtml';
-        require_once './phtml/jugadores/jugador_por_posicion.phtml';
-        require_once './phtml/layouts/footer.phtml';
-    }
-
+    
     public function showAdminJugadores($jugadores, $user) {
         require_once './phtml/layouts/header.phtml';
         require_once './phtml/jugadores/admin_jugador_list.phtml';
@@ -41,6 +29,18 @@ class JugadorView {
     public function showError($mensaje, $codigo_error, $user) {
         require_once './phtml/layouts/header.phtml';
         require_once './phtml/layouts/error.phtml';
+        require_once './phtml/layouts/footer.phtml';
+    }
+
+    public function showJugadoresByEquipo($equipo, $jugadores, $user) {
+    require_once './phtml/layouts/header.phtml';
+    require_once './phtml/equipos/equipo_detail.phtml';
+    require_once './phtml/layouts/footer.phtml';
+    }
+
+    public function showJugadoresByPosicion($posicion, $jugadores, $user) {
+        require_once './phtml/layouts/header.phtml';
+        require_once './phtml/posiciones/posicion_detail.phtml';
         require_once './phtml/layouts/footer.phtml';
     }
 }
