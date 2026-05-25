@@ -1,0 +1,57 @@
+<?php
+
+$isEdit = isset($posicion) && !empty($posicion);
+
+$actionUrl = $isEdit
+    ? BASE_URL . "admin_posicion_edit/" . $posicion->id
+    : BASE_URL . "admin_posicion_add";
+
+?>
+
+<section class="form-container">
+
+    <h2>
+        <?= $isEdit ? "Editar posición" : "Agregar posición" ?>
+    </h2>
+
+    <?php if (!empty($error)): ?>
+
+        <p class="error-message">
+            <?= htmlspecialchars($error) ?>
+        </p>
+
+    <?php endif; ?>
+
+    <form action="<?= $actionUrl ?>" method="POST">
+
+        <div class="form-group">
+
+            <label for="nombre">
+                Nombre
+            </label>
+
+            <input
+                type="text"
+                id="nombre"
+                name="nombre"
+                required
+                value="<?= $isEdit ? htmlspecialchars($posicion->nombre) : '' ?>"
+            >
+
+        </div>
+
+        <div class="form-actions">
+
+            <button type="submit">
+                <?= $isEdit ? "Actualizar" : "Crear" ?>
+            </button>
+
+            <a href="<?= BASE_URL ?>admin_posiciones">
+                Cancelar
+            </a>
+
+        </div>
+
+    </form>
+
+</section>

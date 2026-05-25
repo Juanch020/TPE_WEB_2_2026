@@ -1,0 +1,56 @@
+<h2>Jugadores disponibles</h2>
+
+<?php if (empty($jugadores)): ?>
+
+    <p>No hay jugadores disponibles.</p>
+
+<?php else: ?>
+
+    <section class="jugador-list">
+
+        <?php foreach ($jugadores as $jugador): ?>
+
+            <article class="jugador-card">
+
+                <?php if (!empty($jugador->foto)): ?>
+
+                    <img
+                        src="<?= htmlspecialchars($jugador->foto) ?>"
+                        alt="<?= htmlspecialchars($jugador->nombre) ?>"
+                        class="jugador-img"
+                    >
+
+                <?php endif; ?>
+
+                <h3>
+
+                    <a href="<?= BASE_URL ?>jugador/<?= $jugador->id ?>">
+
+                        <?= htmlspecialchars($jugador->nombre) ?>
+
+                    </a>
+
+                </h3>
+
+                <p>
+                    <strong>Precio:</strong>
+                    $<?= htmlspecialchars($jugador->precio) ?>
+                </p>
+
+                <p>
+                    <strong>Equipo:</strong>
+                    <?= htmlspecialchars($jugador->equipo) ?>
+                </p>
+
+                <p>
+                    <strong>Posición:</strong>
+                    <?= htmlspecialchars($jugador->posicion) ?>
+                </p>
+
+            </article>
+
+        <?php endforeach; ?>
+
+    </section>
+
+<?php endif; ?>

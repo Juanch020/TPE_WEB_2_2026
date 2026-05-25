@@ -1,0 +1,64 @@
+<h2>Administrar posiciones</h2>
+
+<a href="<?= BASE_URL ?>admin_posicion_add" class="btn">
+    Agregar posición
+</a>
+
+<?php if (empty($posiciones)): ?>
+
+    <p>No hay posiciones disponibles.</p>
+
+<?php else: ?>
+
+    <table>
+
+        <thead>
+
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Acciones</th>
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            <?php foreach ($posiciones as $posicion): ?>
+
+                <tr>
+
+                    <td>
+                        <?= htmlspecialchars($posicion->id) ?>
+                    </td>
+
+                    <td>
+                        <?= htmlspecialchars($posicion->nombre) ?>
+                    </td>
+
+                    <td>
+
+                        <a href="<?= BASE_URL ?>admin_posicion_edit/<?= $posicion->id ?>">
+                            Editar
+                        </a>
+
+                        |
+
+                        <a
+                            href="<?= BASE_URL ?>admin_posicion_delete/<?= $posicion->id ?>"
+                            onclick="return confirm('¿Eliminar posición?')"
+                        >
+                            Eliminar
+                        </a>
+
+                    </td>
+
+                </tr>
+
+            <?php endforeach; ?>
+
+        </tbody>
+
+    </table>
+
+<?php endif; ?>

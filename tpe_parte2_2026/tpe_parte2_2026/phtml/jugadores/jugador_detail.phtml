@@ -1,0 +1,49 @@
+<?php if (!isset($jugador)): ?>
+
+    <p>Jugador no encontrado.</p>
+
+    <?php return; ?>
+
+<?php endif; ?>
+
+<section class="detalle-card">
+
+    <h2>
+        <?= htmlspecialchars($jugador->nombre) ?>
+    </h2>
+
+    <?php if (!empty($jugador->foto)): ?>
+
+        <img
+            src="<?= htmlspecialchars($jugador->foto) ?>"
+            alt="<?= htmlspecialchars($jugador->nombre) ?>"
+            class="detalle-img"
+        >
+
+    <?php endif; ?>
+
+    <p>
+        <strong>ID:</strong>
+        <?= htmlspecialchars($jugador->id) ?>
+    </p>
+
+    <p>
+        <strong>Equipo:</strong>
+        <?= htmlspecialchars($jugador->equipo) ?>
+    </p>
+
+    <p>
+        <strong>Posición:</strong>
+        <?= htmlspecialchars($jugador->posicion) ?>
+    </p>
+
+    <p>
+        <strong>Precio:</strong>
+        $<?= htmlspecialchars($jugador->precio) ?>
+    </p>
+
+    <a href="<?= BASE_URL ?>jugadores" class="btn-link">
+        Volver al listado
+    </a>
+
+</section>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>TPE WEB 2</title>
+
+    <link
+        rel="stylesheet"
+        href="<?= BASE_URL ?>public/css/style.css"
+    >
+
+</head>
+
+<body>
+
+<header class="header">
+
+    <div class="container">
+
+        <h1>TPE WEB 2</h1>
+
+        <nav>
+
+            <a href="<?= BASE_URL ?>home">
+                Inicio
+            </a>
+
+            <a href="<?= BASE_URL ?>equipos">
+                Equipos
+            </a>
+
+            <a href="<?= BASE_URL ?>jugadores">
+                Jugadores
+            </a>
+
+            <a href="<?= BASE_URL ?>posiciones">
+                Posiciones
+            </a>
+
+            <?php if ($user): ?>
+
+                <a href="<?= BASE_URL ?>admin_jugadores">
+                    Admin jugadores
+                </a>
+
+                <a href="<?= BASE_URL ?>admin_equipos">
+                    Admin equipos
+                </a>
+
+                <a href="<?= BASE_URL ?>admin_posiciones">
+                    Admin posiciones
+                </a>
+
+                <a href="<?= BASE_URL ?>logout">
+                    logout (<?= htmlspecialchars(is_object($user) ? $user->username : $user['username']) ?>)
+                </a>
+
+            <?php else: ?>
+
+                <a href="<?= BASE_URL ?>login">
+                    Login
+                </a>
+
+            <?php endif; ?>
+
+        </nav>
+
+    </div>
+
+</header>
+
+<main class="container">

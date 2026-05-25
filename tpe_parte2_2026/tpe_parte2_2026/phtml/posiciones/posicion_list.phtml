@@ -1,0 +1,25 @@
+<h2>Posiciones</h2>
+
+<?php if (empty($posiciones)): ?>
+
+    <p>No hay posiciones cargadas.</p>
+
+<?php else: ?>
+
+    <ul class="lista-posiciones">
+
+        <?php foreach ($posiciones as $posicion): ?>
+
+            <li>
+
+                <a href="<?= BASE_URL ?>posicion/<?= $posicion->id ?>">
+                    <?= htmlspecialchars($posicion->nombre) ?>
+                </a>
+
+            </li>
+
+        <?php endforeach; ?>
+
+    </ul>
+
+<?php endif; ?>
