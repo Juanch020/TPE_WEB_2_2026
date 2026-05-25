@@ -48,6 +48,21 @@ class PosicionController {
         exit;
     }
 
+    public function showPosicion($request) {
+
+        $id = $request->id;
+
+        $posicion = $this->model->getById($id);
+
+        if (!$posicion) {
+            $this->view->showError("Equipo no encontrado", 404, $request->user);
+            return;
+        }
+
+        $jugadores = $this->jugadorModel->getByPosicion($id);
+
+        $this->view->showPosicion($posicion, $jugadores, $request->user);
+    }
     public function showEditPosicion($request) {
         if (!is_numeric($request->id)) {
 
