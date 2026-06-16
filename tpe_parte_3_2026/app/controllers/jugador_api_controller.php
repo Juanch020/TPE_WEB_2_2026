@@ -1,16 +1,20 @@
 <?php
+
 require_once __DIR__ . '/../models/jugador_model.php';
 
-class JugadorApiController{
+class JugadorApiController
+{
     private $model;
 
     public function __construct(){
-        $this->model=new JugadorModel();
+
+        $this->model = new JugadorModel();
     }
 
     public function getJugadores($req, $res){
+
         $sort = $req->query->sort ?? null;
-        $order = $req->query->order ?? null;
+        $order = strtoupper($req->query->order ?? 'ASC');
 
         $page = max(1, (int)($req->query->page ?? 1));
         $limit = max(1, min(100, (int)($req->query->limit ?? 10)));
@@ -29,7 +33,8 @@ class JugadorApiController{
         $allowedFilters = [
             'id_equipo',
             'id_posicion',
-            'nombre'
+            'nombre',
+            'precio'
         ];
 
         if ($sort && !in_array($sort, $allowedSorts)) {
@@ -37,28 +42,26 @@ class JugadorApiController{
         }
 
         if (!in_array($order, ['ASC', 'DESC'])) {
-            return $res->json([
-                'error' => 'Orden inválido'
-            ], 400);
+            return $res->json(['error' => 'Orden inválido'], 400);
         }
 
         if ($filterField && !in_array($filterField, $allowedFilters)) {
-            return $res->json([
-                'error' => 'Campo de filtro inválido'
-            ], 400);
+            return $res->json(['error' => 'Campo de filtro inválido'], 400);
         }
 
         $offset = ($page - 1) * $limit;
 
         $jugadores = $this->model->getAll($sort, $order, $limit, $offset, $filterField, $filterValue);
+
         $total = $this->model->count($filterField, $filterValue);
-        $totalPages = ceil($total/$limit);
+
+        $totalPages = ceil($total / $limit);
 
         $result = [
             'data' => $jugadores,
             'pagination' => [
-                'page' => (int)$page,
-                'limit' => (int)$limit,
+                'page' => $page,
+                'limit' => $limit,
                 'total' => (int)$total,
                 'totalPages' => $totalPages,
                 'hasNext' => $page < $totalPages,
@@ -66,59 +69,15 @@ class JugadorApiController{
             ]
         ];
 
-        if($filterField && $filterValue){
-            $response['filter'] = [
-                'field' => $filterField,
-                'value' => $filterValue
-            ];
+        if ($filterField !== null && $filterValue !== null) {
+            $result['filter'] = ['field' => $filterField,'value' => $filterValue];
         }
 
         return $res->json($result, 200);
     }
 
     public function getJugador($req, $res){
-        $id_jugador = $req->params->id;
-        $jugador = $this->model->getById($id_jugador);
 
-        if(!$jugador){
-            return $res->json("el jugador no existe", 404);
-        }
-
-        return $res->json($jugador);
-    }
-
-    public function update($req, $res){
-        $id_jugador = $req->params->id;
-        $jugador = $this->model->getById($id_jugador);
-
-        if(!$jugador){
-            $res->json("el jugador no existe", 404);
-        }
-        
-        if(empty($req->body->nombre) || empty($req->body->precio) || empty($req->body->id_equipo) || empty($req->body->id_posicion)){
-            return $res->json('faltan datos', 400);
-        }
-
-        if (!is_numeric($req->body->precio)) {
-            return $res->json(['error' => 'El precio debe ser numérico'], 400);
-        }
-
-        $data =[
-            $nombre = $req->body->nombre;
-            $precio = $req->body->precio;
-            $id_equipo = $req->body->id_equipo;
-            $id_posicion = $req->body->id_posicion;
-            $foto = $req->body->foto;
-        ];
-        
-        $this->model->update($nombre, $data);
-
-        $updated_jugador = $this->model->getById($id_jugador);
-
-        return $res->json($updated_jugador);
-    }
-
-    public function delete($req, $res){
         $id_jugador = $req->params->id;
 
         if (!is_numeric($id_jugador)) {
@@ -127,13 +86,101 @@ class JugadorApiController{
 
         $jugador = $this->model->getById($id_jugador);
 
-        if(!$jugador){
-            return $res->json("el jugador no existe", 404);
+        if (!$jugador) {
+            return $res->json(['error' => 'El jugador no existe'], 404);
+        }
+
+        return $res->json($jugador, 200);
+    }
+
+    public function updateJugador($req, $res){
+
+        $id_jugador = $req->params->id;
+
+        if (!is_numeric($id_jugador)) {
+            return $res->json(['error' => 'ID inválido'], 400);
+        }
+
+        $jugador = $this->model->getById($id_jugador);
+
+        if (!$jugador) {
+            return $res->json([
+                'error' => 'El jugador no existe'
+            ], 404);
+        }
+
+        if (!isset($req->body->nombre) || !isset($req->body->precio) || !isset($req->body->id_equipo) || !isset($req->body->id_posicion)) {
+            return $res->json(['error' => 'Faltan datos'], 400);
+        }
+
+        if (!is_numeric($req->body->precio)) {
+            return $res->json(['error' => 'El precio debe ser numérico'], 400);
+        }
+        
+        if (!is_numeric($req->body->id_equipo) || !is_numeric($req->body->id_posicion)) {
+            return $res->json(['error' => 'Equipo y posición deben ser numéricos'],400);
+        }
+
+        $data = [
+            'nombre' => $req->body->nombre,
+            'precio' => $req->body->precio,
+            'id_equipo' => $req->body->id_equipo,
+            'id_posicion' => $req->body->id_posicion,
+            'foto' => $req->body->foto ?? null
+        ];
+
+        $this->model->update($id_jugador, $data);
+
+        $updatedJugador = $this->model->getById($id_jugador);
+
+        return $res->json($updatedJugador, 200);
+    }
+
+    public function deleteJugador($req, $res){
+
+        $id_jugador = $req->params->id;
+
+        if (!is_numeric($id_jugador)) {
+            return $res->json(['error' => 'ID inválido'], 400);
+        }
+
+        $jugador = $this->model->getById($id_jugador);
+
+        if (!$jugador) {
+            return $res->json(['error' => 'El jugador no existe'], 404);
         }
 
         $this->model->delete($id_jugador);
+
         return $res->json(null, 204);
     }
-}
 
-?>
+    public function addJugador($req, $res){
+        
+        if (!isset($req->body->nombre) || !isset($req->body->precio) || !isset($req->body->id_equipo) || !isset($req->body->id_posicion)) {
+            return $res->json(['error' => 'Faltan datos'], 400);
+        }
+
+        if (!is_numeric($req->body->precio)) {
+            return $res->json(['error' => 'El precio debe ser numérico'], 400);
+        }
+
+        if (!is_numeric($req->body->id_equipo) || !is_numeric($req->body->id_posicion)) {
+            return $res->json(['error' => 'Equipo y posición deben ser numéricos'],400);
+        }
+
+        $data = [
+            'nombre' => $req->body->nombre,
+            'precio' => $req->body->precio,
+            'id_equipo' => $req->body->id_equipo,
+            'id_posicion' => $req->body->id_posicion,
+            'foto' => $req->body->foto ?? null
+        ];
+
+        $id = $this->model->create($data);
+
+        $nuevoJugador = $this->model->getById($id);
+
+        return $res->json($nuevoJugador, 201);
+    }
+}
