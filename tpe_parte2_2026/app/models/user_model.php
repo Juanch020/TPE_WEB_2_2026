@@ -14,5 +14,5 @@ require_once __DIR__ . '/database_model.php';
         $query->execute([$id]);
         return $query->fetch();
     }
- }
+}
 ?>
