@@ -8,6 +8,7 @@ class PosicionModel extends DatabaseModel{
         $query->execute([$id]);
         return $query->fetch();
     }
+    
     public function getAll(){
         $query = $this->db->prepare("SELECT * FROM posicion ORDER BY id DESC");
         $query->execute();

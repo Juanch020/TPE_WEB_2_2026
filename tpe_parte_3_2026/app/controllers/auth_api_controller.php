@@ -3,7 +3,7 @@
 require_once __DIR__ . '/../models/user_model.php';
 require_once __DIR__ . '/../../libs/jwt/jwt.php';
 
-class AuthController {
+class AuthApiController {
     private $model;
 
     public function __construct() {

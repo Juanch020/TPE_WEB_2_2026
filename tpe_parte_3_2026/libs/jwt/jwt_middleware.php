@@ -1,6 +1,7 @@
 <?php
+
 require_once __DIR__ . '/jwt.php';
-require_once __DIR__ . '/../libs/router/middleware.php';
+require_once __DIR__ . '/../router/middleware.php';
 
 class JWTMiddleware extends Middleware
 {
@@ -8,18 +9,15 @@ class JWTMiddleware extends Middleware
     {
         $authHeader = $request->authorization;
 
+        // Si no hay token, continua
         if (empty($authHeader)) {
-            return $response->json([
-                'error' => 'Token requerido'
-            ], 401);
+            return;
         }
 
         $parts = explode(' ', $authHeader);
 
         if (count($parts) !== 2 || $parts[0] !== 'Bearer') {
-            return $response->json([
-                'error' => 'Formato de token inválido'
-            ], 401);
+            return;
         }
 
         $jwt = $parts[1];
@@ -27,9 +25,7 @@ class JWTMiddleware extends Middleware
         $user = validateJWT($jwt);
 
         if (!$user) {
-            return $response->json([
-                'error' => 'Token inválido o expirado'
-            ], 401);
+            return;
         }
 
         $request->user = $user;

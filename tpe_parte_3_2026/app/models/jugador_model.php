@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../models/database_model.php';
 class JugadorModel extends DatabaseModel{
+    
     public function getById($id){
         $query = $this->db->prepare('SELECT * FROM jugador WHERE id = ?');
         
@@ -60,7 +61,7 @@ class JugadorModel extends DatabaseModel{
         $query->execute($params);
         $result = $query->fetch();
 
-        return $result['total'];
+        return $result->total;
     }
 
     public function create($data){
