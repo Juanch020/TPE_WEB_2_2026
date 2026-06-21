@@ -1,14 +1,19 @@
 <?php
 
 require_once __DIR__ . '/../models/jugador_model.php';
+require_once __DIR__ . '/../models/equipo_model.php';
+require_once __DIR__ . '/../models/posicion_model.php';
 
 class JugadorApiController
 {
     private $model;
+    private $equipoModel;   // <-- NUEVO
+    private $posicionModel; // <-- NUEVO
 
     public function __construct(){
-
         $this->model = new JugadorModel();
+        $this->equipoModel = new EquipoModel();     // <-- NUEVO
+        $this->posicionModel = new PosicionModel(); // <-- NUEVO
     }
 
     public function getJugadores($req, $res){
@@ -104,9 +109,7 @@ class JugadorApiController
         $jugador = $this->model->getById($id_jugador);
 
         if (!$jugador) {
-            return $res->json([
-                'error' => 'El jugador no existe'
-            ], 404);
+            return $res->json(['error' => 'El jugador no existe'], 404);
         }
 
         if (!isset($req->body->nombre) || !isset($req->body->precio) || !isset($req->body->id_equipo) || !isset($req->body->id_posicion)) {
@@ -156,7 +159,7 @@ class JugadorApiController
     }
 
     public function addJugador($req, $res){
-        
+    
         if (!isset($req->body->nombre) || !isset($req->body->precio) || !isset($req->body->id_equipo) || !isset($req->body->id_posicion)) {
             return $res->json(['error' => 'Faltan datos'], 400);
         }
@@ -166,9 +169,21 @@ class JugadorApiController
         }
 
         if (!is_numeric($req->body->id_equipo) || !is_numeric($req->body->id_posicion)) {
-            return $res->json(['error' => 'Equipo y posición deben ser numéricos'],400);
+            return $res->json(['error' => 'Equipo y posición deben ser numéricos'], 400);
         }
 
+        $equipo = $this->equipoModel->getById($req->body->id_equipo);
+        $posicion = $this->posicionModel->getById($req->body->id_posicion);
+
+        if (!$equipo) {
+            return $res->json(['error' => 'El id_equipo especificado no existe.'], 400);
+        }
+
+        if (!$posicion) {
+            return $res->json(['error' => 'El id_posicion especificado no existe.'], 400);
+        }
+
+        // Si pasó todo, insertamos de forma segura
         $data = [
             'nombre' => $req->body->nombre,
             'precio' => $req->body->precio,
@@ -178,7 +193,6 @@ class JugadorApiController
         ];
 
         $id = $this->model->create($data);
-
         $nuevoJugador = $this->model->getById($id);
 
         return $res->json($nuevoJugador, 201);

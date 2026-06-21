@@ -1,0 +1,10 @@
+RewriteEngine On
+
+# 1. PERMITE QUE PHP LEA EL TOKEN JWT EN POSTMAN
+RewriteCond %{HTTP:Authorization} ^(.*)
+RewriteRule .* - [e=HTTP_AUTHORIZATION:%1]
+
+# 2. REDIRECCIÓN AL ROUTER DE LA API
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ api_router.php?resource=$1 [QSA,L]
