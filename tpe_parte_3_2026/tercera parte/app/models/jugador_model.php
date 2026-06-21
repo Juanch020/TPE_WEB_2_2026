@@ -45,6 +45,22 @@ class JugadorModel extends DatabaseModel{
         return $query->fetchAll();
     }
 
+    public function getByEquipo($id_equipo){
+        $query = $this->db->prepare("SELECT * FROM jugador WHERE id_equipo = ?");
+
+        $query->execute([$id_equipo]);
+
+        return $query->fetchAll();
+    }
+
+    public function getByPosicion($id_posicion){
+        $query = $this->db->prepare("SELECT * FROM jugador WHERE id_posicion = ?");
+
+        $query->execute([$id_posicion]);
+
+        return $query->fetchAll();
+    }
+
     public function count ($filterField = null, $filterValue = null){
         $sql = 'SELECT COUNT(*) as total FROM jugador';
         $params = [];
