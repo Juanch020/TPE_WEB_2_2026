@@ -1,11 +1,11 @@
 <?php
 require_once __DIR__ . '/../models/database_model.php';
 
-class EquipoModel extends databaseModel{
+class EquipoModel extends DatabaseModel{
     public function getById($id){
         $query = $this->db->prepare("SELECT * FROM equipo WHERE id = ?");
         $query->execute([$id]);
-        return $query->fetch(PDO::FETCH_OBJ);
+        return $query->fetch();
     }
 
     public function getAll(){

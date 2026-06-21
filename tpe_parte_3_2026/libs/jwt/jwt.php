@@ -2,67 +2,76 @@
 
 require_once __DIR__ . '/../../config.php';
 
-//Convierte texto normal en formato Base64 URL Safe
-function base64url_encode($data)
-{
+/**
+ * Convierte datos a Base64 URL Safe.
+ */
+function base64url_encode($data){
     return rtrim(strtr(base64_encode($data), '+/', '-_'), '=');
 }
 
-//hace lo opuesto a la funcion base64url_encode
-function base64url_decode($data)
-{
+/**
+ * Decodifica datos Base64 URL Safe.
+ */
+function base64url_decode($data){
+    $padding = strlen($data) % 4;
+
+    if ($padding) {
+        $data .= str_repeat('=', 4 - $padding);
+    }
+
     return base64_decode(strtr($data, '-_', '+/'));
 }
 
-function createJWT($payload)
-{
+/**
+ * Genera un JWT firmado con HS256.
+ */
+function createJWT($payload){
     $header = [
         'typ' => 'JWT',
         'alg' => 'HS256'
     ];
 
-    $header = base64url_encode(
-        json_encode($header)
-    );
+    $encodedHeader = base64url_encode(json_encode($header));
 
-    $payload = base64url_encode(json_encode($payload));
+    $encodedPayload = base64url_encode(json_encode($payload));
 
-    $signature = base64url_encode(hash_hmac('sha256', $header . '.' . $payload, JWT_SECRET, true));
+    $signature = hash_hmac('sha256',$encodedHeader . '.' . $encodedPayload, JWT_SECRET, true);
 
-    return $header . '.' . $payload . '.' . $signature;
+    $encodedSignature = base64url_encode($signature);
+
+    return
+        $encodedHeader . '.' .
+        $encodedPayload . '.' .
+        $encodedSignature;
 }
 
-function validateJWT($jwt)
-{
+/**
+ * Valida un JWT y devuelve el payload.
+ */
+function validateJWT($jwt){
     $parts = explode('.', $jwt);
 
     if (count($parts) !== 3) {
         return null;
     }
 
-    $header = $parts[0];
-    $payload = $parts[1];
-    $signature = $parts[2];
+    [$header, $payload, $signature] = $parts;
 
     $expectedSignature = base64url_encode(hash_hmac('sha256', $header . '.' . $payload, JWT_SECRET, true));
 
-    if ($signature !== $expectedSignature) {
+    if (!hash_equals($expectedSignature, $signature)) {
         return null;
     }
 
-    $payload = json_decode(base64url_decode($payload));
+    $decodedPayload = json_decode(base64url_decode($payload));
 
-    if (!$payload) {
+    if (!$decodedPayload) {
         return null;
     }
 
-    if (!isset($payload->exp)) {
+    if (!isset($decodedPayload->exp) || $decodedPayload->exp < time()) {
         return null;
     }
 
-    if ($payload->exp < time()) {
-        return null;
-    }
-
-    return $payload;
+    return $decodedPayload;
 }
